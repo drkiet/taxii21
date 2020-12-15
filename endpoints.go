@@ -10,9 +10,9 @@ func ProcessEndpoint(w http.ResponseWriter,r *http.Request) {
 	path := r.URL.Path
 	if path == "/taxii2/" {
 		log.Println("returning APIRoots")
-		body := ProcessDiscovery()
-		w.Header().Set("Content-Type", "application/taxii+json")
-		json.NewEncoder(w).Encode(body)
+		var encoder = json.NewEncoder(w)
+		encoder.SetIndent("", "  ")
+		encoder.Encode(ProcessDiscovery())
 	} else {
 		log.Println("Unsupported request ... ", r.URL)
 	}

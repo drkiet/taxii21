@@ -1,9 +1,9 @@
 package main
 
-const DefaultServerPort = ":8080"
+const DefaultServerPort = ":9443"
 
 var ServerPort string = DefaultServerPort
 
-var Collections []string
+var CollectionList []string
 var APIRoots[] string
 var Channels[] string

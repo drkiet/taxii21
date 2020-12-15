@@ -14,8 +14,13 @@ func rootHandler(w http.ResponseWriter, r *http.Request) {
 	log.Println("Host: ", tokens[0])
 
 	if ProcessHeaders(w, r) == nil {
-		ProcessEndpoint(w, r)
+		if r.Method == http.MethodGet {
+			ProcessEndpoint(w, r)
+		} else {
+			JSONError(w, makeHeaderError("Invalid method"), 405)
+		}
 	}
+	log.Println("exiting rootHandler ...")
 }
 
 var HostName, _ = os.Hostname()
@@ -29,9 +34,11 @@ func StartServer(args[] string) {
 
 	http.HandleFunc("/", rootHandler)
 	//err := http.ListenAndServe(ServerPort, nil)
-	err := http.ListenAndServeTLS(":9443", "server.crt", "server.key", nil)
+
+	err := http.ListenAndServeTLS(ServerPort, "server.crt", "server.key", nil)
 	if err != nil {
 		log.Fatal("ListenAndServeTLS: ", err)
 		os.Exit (10)
 	}
+	log.Println("TAXII Server exits!")
 }
