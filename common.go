@@ -86,8 +86,7 @@ type Versions struct {
 	Versions []string `json:"versions,omitempty"`
 }
 
-
-func MarshalAError(error Error) (jsonData string){
+func MarshalError(error Error) (jsonData string){
 	data, _ := json.MarshalIndent(error, "", "  ")
 	return string(data)
 }

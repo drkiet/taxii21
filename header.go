@@ -36,7 +36,7 @@ func ProcessHeaders(w http.ResponseWriter,r *http.Request) error {
 		JSONError(w, makeHeaderError("The media type provided in the Accept header is invalid"), 406)
 	} else {
 		var status int
-		status, err = VerifyBasicAuth(w, r)
+		status, err = VerifyBasicAuth(r)
 		switch status {
 		case http.StatusInternalServerError:
 			log.Println("Internal error:", err)
@@ -61,7 +61,7 @@ func makeHeaderError(errorMessage string) Error {
 	return Error{Title: errorMessage}
 }
 
-func VerifyBasicAuth(w http.ResponseWriter, r *http.Request) (int, error) {
+func VerifyBasicAuth(r *http.Request) (int, error) {
 	user, psw, ok := r.BasicAuth()
 	log.Println("basic: ", user, psw)
 	if !ok || len(user) == 0 {
