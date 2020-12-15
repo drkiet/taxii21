@@ -5,5 +5,5 @@ import (
 )
 
 func main() {
-	StartServer(os.Args)
+	StartServer(os.Args, RootHandler)
 }

@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-func rootHandler(w http.ResponseWriter, r *http.Request) {
+func RootHandler(w http.ResponseWriter, r *http.Request) {
 	log.Println("Incoming request from ... ", r.Host)
 	var tokens = strings.Split(r.Host, ":")
 	log.Println("Host: ", tokens[0])
@@ -25,20 +25,21 @@ func rootHandler(w http.ResponseWriter, r *http.Request) {
 
 var HostName, _ = os.Hostname()
 
-func StartServer(args[] string) {
+func StartServer(args[] string, rootHandler func(w http.ResponseWriter, r *http.Request)) {
 	if len(args) == 1 {
 		fmt.Println("Using default port number: ", DefaultServerPort)
 	} else {
 		ServerPort = ":" + args[1]
 	}
+	log.Println("Server is listening on", ServerPort)
 
 	http.HandleFunc("/", rootHandler)
 	//err := http.ListenAndServe(ServerPort, nil)
 
 	err := http.ListenAndServeTLS(ServerPort, "server.crt", "server.key", nil)
 	if err != nil {
-		log.Fatal("ListenAndServeTLS: ", err)
-		os.Exit (10)
+		log.Println("ListenAndServeTLS: ", err)
+		//os.Exit (10)
 	}
 	log.Println("TAXII Server exits!")
 }

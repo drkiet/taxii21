@@ -22,13 +22,13 @@ func TestProcessDiscovery(t *testing.T) {
 	}
 	log.Println("test process discovery ends")
 	for _, url := range dr.ApiRoots {
-		if !stringInSlice(url, TestApiRoots) {
+		if !StringInSlice(url, TestApiRoots) {
 			t.Error("test process discovery unexpected url fails", url)
 		}
 	}
 }
 
-func stringInSlice(a string, list []string) bool {
+func StringInSlice(a string, list []string) bool {
 	for _, b := range list {
 		log.Println(a, b)
 		if strings.Contains(a, b) {
